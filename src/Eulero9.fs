@@ -16,27 +16,26 @@
 // 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 
 #light
-let simple_triplet_sequence =
-    Seq.initInfinite (fun x -> (2*x+1, 2*x*(x+1), 2*x*(x+1)+1))
-    |> Seq.filter (fun (a,b,c) -> a+b+c = 1000)
 
-let triplets top =
+// generate triplets using Euclid's Formula
+let pythagorean_triplets top =
     [ for m in 1 .. top do
           for n in 1 .. m-1 do
-             let a = m*m-n*n
-             let b = 2*m*n
-             let c = m*m+n*n
-             yield [a;b;c] ]
-    
-let findTriplet top =
-    triplets top
-    |> List.find (fun [a;b;c] -> a+b+c=1000)
+          let a = m*m-n*n
+          let b = 2*m*n
+          let c = m*m+n*n
+          yield [a;b;c] ]
 
-let multiplyList list =
+// multiply all the values of a list
+let multiply_list list =
     List.fold (fun acc elem -> acc*elem) 1 list
 
+// find a triplet where the sum of values
+// is equal to a given number
+let find_triplet_with_sum sum =
+    pythagorean_triplets sum
+    |> List.find (fun [a;b;c] -> a+b+c=sum)
 
 let problem_9 () =
-    find_triplet 1000
-    |> multiplyList
-
+    find_triplet_with_sum 1000
+    |> multiply_list
